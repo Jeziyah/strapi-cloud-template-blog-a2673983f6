@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "enabled_languages",
+  "info": {
+    "singularName": "enabled-language",
+    "pluralName": "enabled-languages",
+    "displayName": "Enabled-language"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "locale": {
+      "type": "text",
+      "required": false,
+      "maxLength": 1000
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "flag": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}
