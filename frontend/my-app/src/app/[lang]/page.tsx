@@ -6,6 +6,9 @@ import Loader from "./components/Loader";
 import PostList from "./components/PostList";
 import PageHeader from "./components/PageHeader";
 
+// import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/router';
+
 interface Meta {
   pagination: {
     start: number;
@@ -16,9 +19,17 @@ interface Meta {
 
 export default function Profile() {
   console.log("loading page")
+
+  // const router = useRouter();
+  // const { locale } = router;
+  // console.log(locale);
+
   const [meta, setMeta] = useState<Meta | undefined>();
   const [data, setData] = useState<any>([]);
   const [isLoading, setLoading] = useState(true);
+  
+  
+
 
   const fetchData = useCallback(async (start: number, limit: number) => {
     setLoading(true);
@@ -49,8 +60,6 @@ export default function Profile() {
         setData((prevData: any[] ) => [...prevData, ...responseData.data]);
       }
 
-      console.log(responseData.meta)
-      console.log("loasje")
       
       setMeta(responseData.meta);
     } catch (error) {
@@ -89,6 +98,7 @@ export default function Profile() {
           </div>
         )}
       </PostList>
+      {/* <div>Current language: {locale}</div>; */}
     </div>
   );
 }
