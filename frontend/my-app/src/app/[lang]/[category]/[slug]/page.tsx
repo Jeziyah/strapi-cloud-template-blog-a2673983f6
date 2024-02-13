@@ -38,30 +38,33 @@ async function getPostBySlug(slug: string, lang: string) {  //aangepastes
 //     return response;
 // }
 
-async function getMetaData(slug: string) {
-    const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
-    const path = `/articles`;
-    const urlParamsObject = {
-        filters: { slug },
-        populate: { seo: { populate: '*' } },
-    };
-    const options = { headers: { Authorization: `Bearer ${token}` } };
-    const response = await fetchAPI(path, urlParamsObject, options);
-    return response.data;
-}
+// async function getMetaData(slug: string) {
+//     const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
+//     const path = `/articles`;
+//     const urlParamsObject = {
+//         filters: { slug },
+//         populate: { seo: { populate: '*' } },
+//     };
+//     const options = { headers: { Authorization: `Bearer ${token}` } };
+//     const response = await fetchAPI(path, urlParamsObject, options);
+//     return response.data;
+// }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const meta = await getMetaData(params.slug);
-    const metadata = meta[0].attributes.seo;
+// export async function generateMetadata({ params }: { params: { id: string, slug: string } }): Promise<Metadata> {
+//     const meta = await getMetaData(params.slug);
+//     console.log(meta);
+//     const metadata = meta[0].attributes.seo;
 
-    return {
-        title: metadata.metaTitle,
-        description: metadata.metaDescription,
-    };
-}
+//     return {
+//         title: metadata.metaTitle,
+//         description: metadata.metaDescription,
+//     };
+// }
 
-export default async function PostRoute({ params }: { params: { slug: string, lang: string} }) {  //aangepastes
-    const { slug, lang } = params;  //aangepastes
+export default async function PostRoute({ params }: { params: { lang: string, slug: string } }) {  //aangepastes
+    const { lang, slug } = params;  //aangepastes
+    console.log(slug);
+    console.log(lang);
     const data = await getPostBySlug(slug, lang);  //aangepastes
     if (data.data.length === 0) return <h2>no post found</h2>;
     return <Post data={data.data[0]} />;

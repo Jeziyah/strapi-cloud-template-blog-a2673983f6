@@ -18,7 +18,6 @@ interface Meta {
 }
 
 export default function Profile() {
-  console.log("loading page")
 
   // const router = useRouter();
   // const { locale } = router;
@@ -31,12 +30,13 @@ export default function Profile() {
   
 
 
-  const fetchData = useCallback(async (start: number, limit: number) => {
+  const fetchData = useCallback(async (start: number, limit: number, lang: string) => {
     setLoading(true);
     try {
       const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
       const path = `/articles`;
       const urlParamsObject = {
+        lang: lang,
         sort: { createdAt: "desc" },
         populate: {
           cover: { fields: ["url"] },
@@ -71,11 +71,11 @@ export default function Profile() {
 
   function loadMorePosts(): void {
     const nextPosts = meta!.pagination.start + meta!.pagination.limit;
-    fetchData(nextPosts, Number(process.env.NEXT_PUBLIC_PAGE_LIMIT));
+    fetchData(nextPosts, Number(process.env.NEXT_PUBLIC_PAGE_LIMIT), "all");
   }
 
   useEffect(() => {
-    fetchData(0, Number(process.env.NEXT_PUBLIC_PAGE_LIMIT));
+    fetchData(0, Number(process.env.NEXT_PUBLIC_PAGE_LIMIT), "all");
   }, [fetchData]);
 
   if  (isLoading) return <Loader />;

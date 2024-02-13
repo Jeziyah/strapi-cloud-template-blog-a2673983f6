@@ -37,15 +37,12 @@ function getLocale(request: NextRequest): string | undefined {
   let languages = new Negotiator({ headers: negotiatorHeaders }).languages();
   // @ts-ignore locales are readonly
   const locales: string[] = i18n.locales;
-  console.log(languages);
-  console.log(locales+"   (String array)");
-  console.log(i18n.defaultLocale);
+
   return matchLocale(languages, locales, i18n.defaultLocale);
 }
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  console.log(pathname + "  = the pathname");
 
   // // `/_next/` and `/api/` are ignored by the watcher, but we need to ignore files in `public` manually.
   // // If you have one
@@ -67,16 +64,10 @@ export function middleware(request: NextRequest) {
 
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
-    console.log("No locale found in pathName : my-app/src/middleware.ts");
-    console.log("pathnameIsMissingLocale is: "+pathnameIsMissingLocale);
-
+  
     const locale = getLocale(request);
     console.log(locale + " Is the locale code");
     
-    
-    console.log("#######################");
-    console.log("#######################");
-
     // e.g. incoming request is /products
     // The new URL is now /en-US/products
     return NextResponse.redirect(
